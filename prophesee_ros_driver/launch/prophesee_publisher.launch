@@ -4,7 +4,7 @@
     <param name="camera_name" value="camera" />
     <param name="publish_cd" value="true" />
     <!-- <param name="file_record_path" value="$(find prophesee_ros_driver)/data/"/> -->
-    <param name="file_record_path" value="/home/nros-ac/rosbag/"/>
+    <param name="file_record_path" value="/home/nros-ac/data/"/>
     <param name="file_name" value="test" />
 
     <!-- Path to the file with the camera settings -->

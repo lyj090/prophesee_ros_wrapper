@@ -108,8 +108,8 @@ private:
             tm* local_time = std::localtime(&current_time);
 
             std::stringstream ss;
-            // ss << file_record_path_ + file_name_ + "_" << std::put_time(local_time, "%Y_%m_%d_%H_%M_%S") << ".raw";
-            ss << file_record_path_ + file_name_ + "_" << std::to_string(ros::Time::now().toSec()) << ".raw";
+            // ss << file_record_path_ + "" << std::put_time(local_time, "%Y_%m_%d_%H_%M_%S") << ".raw";
+            ss << file_record_path_ << std::to_string(ros::Time::now().toSec()) << ".raw";
             std::cout << ss.str() << std::endl;
             camera_.start_recording(ss.str());
             res.success = true;
