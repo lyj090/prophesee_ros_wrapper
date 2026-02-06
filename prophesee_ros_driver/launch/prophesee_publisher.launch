@@ -3,12 +3,18 @@
   <node pkg="prophesee_ros_driver" type="prophesee_ros_publisher" name="prophesee_ros_publisher" respawn="false" output="screen">
     <param name="camera_name" value="camera" />
     <param name="publish_cd" value="true" />
+    <!-- <param name="file_record_path" value="$(find prophesee_ros_driver)/data/"/> -->
+    <param name="file_record_path" value="/home/nros-ac/rosbag/"/>
+    <param name="file_name" value="test" />
 
     <!-- Path to the file with the camera settings -->
-    <param name="bias_file" value=""/>
+    <param name="bias_file" value="$(find prophesee_ros_driver)/cfg/event_imu.bias"/>
 
     <!-- Instead of live camera, you can read data offline from raw file -->
-    <param name="raw_file_to_read" value="" />
+    <!-- <param name="raw_file_to_read" value="$(find prophesee_ros_driver)/data/test.raw" /> -->
+    <!-- <param name="raw_file_to_read" value="/home/nros_ah/Code/ros_workspace/AC_ws/src/prophesee_ros_wrapper/prophesee_ros_driver/data/test_2025_04_10_21_14_32.raw" /> -->
+     <param name="raw_file_to_read" value="" />
+    <!-- <param name="raw_file_to_read" value="/home/nros_ah/Code/ros_workspace/AC_ws/src/prophesee_ros_wrapper/prophesee_ros_driver/data/test_2025_04_10_21_15_11.raw" /> -->
 
     <!-- approximate time span in seconds for which events will
 	 be aggregated until a ROS message is generated. Defaults to

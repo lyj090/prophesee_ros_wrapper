@@ -9,7 +9,13 @@
 
 #include <sensor_msgs/CameraInfo.h>
 
+ // #include <metavision/sdk/stream/camera.h>
 #include <metavision/sdk/driver/camera.h>
+#include <metavision/sdk/driver/biases.h>
+
+#include <ros/ros.h>
+#include <std_srvs/Trigger.h>
+#include <chrono>
 
 /// \brief Main class for ROS publisher
 ///
@@ -86,6 +92,44 @@ private:
     /// \brief delta time of cd events fixed by the driver
     /// The delta time is set to a fixed number of 64 microseconds (1e-06)
     static constexpr double EVENT_DEFAULT_DELTA_T = 6.4e-05;
+
+
+
+    std::string file_record_path_ = "";
+    std::string file_name_ = "";
+    bool start_record_srv_callback(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res) {
+        if (file_record_path_ == "" || file_name_ == "") {
+            res.success = false;
+            std::cout << "not ready to record with file name: " << file_name_ << " and file path: " << file_record_path_ << std::endl;
+        }
+        else {
+            auto now = std::chrono::system_clock::now();
+            time_t current_time = std::chrono::system_clock::to_time_t(now);
+            tm* local_time = std::localtime(&current_time);
+
+            std::stringstream ss;
+            // ss << file_record_path_ + file_name_ + "_" << std::put_time(local_time, "%Y_%m_%d_%H_%M_%S") << ".raw";
+            ss << file_record_path_ + file_name_ + "_" << std::to_string(ros::Time::now().toSec()) << ".raw";
+            std::cout << ss.str() << std::endl;
+            camera_.start_recording(ss.str());
+            res.success = true;
+        }
+        return true;
+    }
+    
+    bool stop_record_srv_callback(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res) {
+        if (file_record_path_ == "" || file_name_ == "") {
+            res.success = false;
+        }
+        else {
+            camera_.stop_recording();
+            res.success = true;
+            std::cout << "recording stopped" << std::endl;
+        }
+        return true;
+    }
+    ros::ServiceServer start_record_srv_;
+    ros::ServiceServer stop_record_srv_;
 };
 
 #endif /* PROPHESEE_ROS_PUBLISHER_H_ */

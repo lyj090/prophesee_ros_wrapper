@@ -1,0 +1,6 @@
+0    % bias_diff
+30   % bias_diff_off
+30   % bias_diff_on
+0    % bias_fo
+50   % bias_hpf
+-20  % bias_refr

@@ -1,8 +1,9 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(prophesee_ros_driver)
 
+
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++14 -O3)
+add_compile_options(-std=c++17 -O3)
 
 
 execute_process(COMMAND lsb_release -cs OUTPUT_VARIABLE RELEASE_CODENAME OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -21,6 +22,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(MetavisionSDK COMPONENTS driver REQUIRED)
+
 
 if (CATKIN_ENABLE_TESTING)
   find_package(roslaunch REQUIRED)
@@ -50,8 +52,10 @@ add_executable(prophesee_ros_publisher
 
 target_link_libraries(
     prophesee_ros_publisher
+    # MetavisionSDK::stream
     MetavisionSDK::driver
     ${catkin_LIBRARIES}
+    # curl
 )
 
 add_dependencies(
@@ -68,12 +72,15 @@ add_executable(prophesee_ros_viewer
 
 target_link_libraries(
     prophesee_ros_viewer
+    # MetavisionSDK::stream
     MetavisionSDK::driver
     ${catkin_LIBRARIES}
+    # curl
 )
 
 add_dependencies(
     prophesee_ros_viewer
     prophesee_event_msgs_generate_messages_cpp
     ${catkin_EXPORTED_TARGETS}
+    # curl
 )

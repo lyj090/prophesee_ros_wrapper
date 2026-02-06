@@ -1,1 +1,5 @@
 *.vscode
+*.raw
+test_*.bias
+test_*.raw
+test_*.tmp_index
